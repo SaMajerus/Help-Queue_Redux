@@ -22,21 +22,22 @@ class TicketControl extends React.Component {
   handleClick = () => {  
     if (this.state.selectedTicket != null) {
       this.setState({
-        // formVisibleOnPage: false,
         selectedTicket: null,
         editing: false 
       });   {/* This first conditional enables the Method to handle returning to the Queue from the Ticket Detail page (and/or a component which is accessed via the Details page, like the Edit form). */} 
     } else {
-      // this.setState(prevState => ({
-      //   formVisibleOnPage: !prevState.formVisibleOnPage,
-      // }));
+      const { dispatch } = this.props;
+      const action = {
+        type: 'TOGGLE_FORM'
+      }
+      dispatch(action);
     }
   }
 
   /* Handles the form submission process (for adding a new ticket to the list). */
   handleAddingNewTicketToList = (newTicket) => {   
-    const dispatch = this.props;
-    const { id, names, location, issue} = newTicket; 
+    const { dispatch } = this.props;
+    const { id, names, location, issue } = newTicket; 
     const action = {
       type: 'ADD_TICKET', 
       id: id, 
@@ -46,7 +47,10 @@ class TicketControl extends React.Component {
       //issue: issue
     };
     dispatch(action); 
-    // this.setState({formVisibleOnPage: false });
+    const action2 = {
+      type: 'TOGGLE_FORM'
+    }
+    dispatch(action2);
   }
 
   /* This method allows a given ticket to be Updated/Edited using the Edit form. */
@@ -106,7 +110,7 @@ class TicketControl extends React.Component {
         onClickingEdit = {this.handleEditClick} />
       buttonText = "Return to Ticket List";
     }
-    else if (this.state.formVisibleOnPage) {
+    else if (this.props.formVisibleOnPage) {
       currentlyVisibleState = <NewTicketForm onNewTicketCreation={this.handleAddingNewTicketToList}  />;
       buttonText = "Return to Ticket List";
     } else {
