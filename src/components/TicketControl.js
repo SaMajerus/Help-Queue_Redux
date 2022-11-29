@@ -12,7 +12,7 @@ class TicketControl extends React.Component {
     super(props);
     console.log(props);
     this.state = {
-      formVisibleOnPage: false,
+      // formVisibleOnPage: false,
       selectedTicket: null,
       editing: false 
     };  
@@ -22,14 +22,14 @@ class TicketControl extends React.Component {
   handleClick = () => {  
     if (this.state.selectedTicket != null) {
       this.setState({
-        formVisibleOnPage: false,
+        // formVisibleOnPage: false,
         selectedTicket: null,
         editing: false 
       });   {/* This first conditional enables the Method to handle returning to the Queue from the Ticket Detail page (and/or a component which is accessed via the Details page, like the Edit form). */} 
     } else {
-      this.setState(prevState => ({
-        formVisibleOnPage: !prevState.formVisibleOnPage,
-      }));
+      // this.setState(prevState => ({
+      //   formVisibleOnPage: !prevState.formVisibleOnPage,
+      // }));
     }
   }
 
@@ -46,7 +46,7 @@ class TicketControl extends React.Component {
       //issue: issue
     };
     dispatch(action); 
-    this.setState({formVisibleOnPage: false });
+    // this.setState({formVisibleOnPage: false });
   }
 
   /* This method allows a given ticket to be Updated/Edited using the Edit form. */
@@ -59,6 +59,7 @@ class TicketControl extends React.Component {
       names: names,
       location: location,
       issue: issue,
+      //issue: issue
     }
     dispatch(action);
     this.setState({
@@ -121,20 +122,22 @@ class TicketControl extends React.Component {
       </React.Fragment>
     );
   }
-
 }
 
 
 TicketControl.propTypes = {
-  mainTicketList: PropTypes.object
+  mainTicketList: PropTypes.object,
+  formVisibleOnPage: PropTypes.bool
 };
 
 const mapStateToProps = state => {
   return {
-    mainTicketList: state
+    mainTicketList: state.mainTicketList,
+    formVisibleOnPage: state.formVisibleOnPage
   }
 }
 
 TicketControl = connect(mapStateToProps)(TicketControl);
+
 
 export default TicketControl;
