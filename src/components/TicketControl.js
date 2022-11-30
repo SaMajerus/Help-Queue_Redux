@@ -3,8 +3,9 @@ import NewTicketForm from './NewTicketForm';
 import EditTicketForm from './EditTicketForm';
 import TicketList from './TicketList';
 import TicketDetail from './TicketDetail'; 
-import { connect } from 'react-redux';
 import PropTypes from "prop-types";
+import { connect } from 'react-redux'; 
+import * as a from './../actions';
 
 class TicketControl extends React.Component {
 
@@ -27,9 +28,7 @@ class TicketControl extends React.Component {
       });   {/* This first conditional enables the Method to handle returning to the Queue from the Ticket Detail page (and/or a component which is accessed via the Details page, like the Edit form). */} 
     } else {
       const { dispatch } = this.props;
-      const action = {
-        type: 'TOGGLE_FORM'
-      }
+      const action = a.toggleForm();
       dispatch(action);
     }
   }
@@ -37,34 +36,18 @@ class TicketControl extends React.Component {
   /* Handles the form submission process (for adding a new ticket to the list). */
   handleAddingNewTicketToList = (newTicket) => {   
     const { dispatch } = this.props;
-    const { id, names, location, issue } = newTicket; 
-    const action = {
-      type: 'ADD_TICKET', 
-      id: id, 
-      names: names, 
-      location: location, 
-      issue: issue,
-      //issue: issue
-    };
+    // const { id, names, location, issue } = newTicket; 
+    const action = a.addTicket(newTicket);
     dispatch(action); 
-    const action2 = {
-      type: 'TOGGLE_FORM'
-    }
+    const action2 = a.toggleForm();
     dispatch(action2);
   }
 
   /* This method allows a given ticket to be Updated/Edited using the Edit form. */
   handleEditingTicketInList = (ticketToEdit) => {
     const { dispatch } = this.props;
-    const { id, names, location, issue } = ticketToEdit;
-    const action = {
-      type: 'ADD_TICKET',
-      id: id,
-      names: names,
-      location: location,
-      issue: issue,
-      //issue: issue
-    }
+    // const { id, names, location, issue } = ticketToEdit;
+    const action = a.addTicket(ticketToEdit);
     dispatch(action);
     this.setState({
       editing: false,
@@ -75,10 +58,7 @@ class TicketControl extends React.Component {
   /* Handles deletion of a given ticket. */
   handleDeletingTicket = (id) => {
     const { dispatch } = this.props;
-    const action = {
-      type: 'DELETE_TICKET',
-      id: id
-    }
+    const action = a.deleteTicket(id);
     dispatch(action);
     this.setState({selectedTicket: null});
   }
