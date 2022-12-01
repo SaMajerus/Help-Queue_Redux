@@ -6,15 +6,17 @@ function TicketList(props){
   return (
     <React.Fragment>
       <hr/>
-      {Object.values(props.ticketList).map((ticket) =>  //Loop thru the list passed down from 'TicketControl'. 
-        <Ticket
+      {/* Loop thru the list passed down from 'TicketControl'.  */}
+      {Object.values(props.ticketList).map((ticket) => {
+        return <Ticket
           whenTicketClicked = { props.onTicketSelection }
           names={ticket.names}
           location={ticket.location}
           issue={ticket.issue}
+          formattedWaitTime={ticket.formattedWaitTime}
           id={ticket.id}
           key={ticket.id}/>
-      )}
+      })}
     </React.Fragment>
   );
 }
